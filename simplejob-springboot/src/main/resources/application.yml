@@ -1,0 +1,6 @@
+ej:
+  zk:
+    server-lists: localhost:2181
+    namespace: ej-namespace
+server:
+  port: 0
