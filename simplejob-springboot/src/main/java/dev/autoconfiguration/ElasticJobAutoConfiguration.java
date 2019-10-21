@@ -1,7 +1,9 @@
 package dev.autoconfiguration;
 
+import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
+import com.dangdang.ddframe.job.config.dataflow.DataflowJobConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
@@ -33,13 +35,18 @@ public class ElasticJobAutoConfiguration {
 
     @PostConstruct
     public void init() {
+        dealSimpleJob();
+        dealDataflowJob();
+    }
+
+    private void dealSimpleJob() {
         //获取所有加了ElasticJob的bean
         Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(ElasticJob.class);
         Set<SimpleJob> jobs = beansWithAnnotation.values()
-                .stream()
-                .filter(s -> s instanceof SimpleJob)
-                .map(v -> (SimpleJob) v)
-                .collect(Collectors.toSet());
+                                                 .stream()
+                                                 .filter(s -> s instanceof SimpleJob)
+                                                 .map(v -> (SimpleJob) v)
+                                                 .collect(Collectors.toSet());
         //构建job注册到zk
         for (SimpleJob job : jobs) {
             ElasticJob jobAnn = job.getClass().getAnnotation(ElasticJob.class);
@@ -48,7 +55,23 @@ public class ElasticJobAutoConfiguration {
             LiteJobConfiguration simpleJobRootConfig = LiteJobConfiguration.newBuilder(simpleJobConfiguration).overwrite(jobAnn.overwrite()).build();
             new JobScheduler(zookeeperRegistryCenter, simpleJobRootConfig).init();
         }
-
+    }
+    private void dealDataflowJob() {
+        //获取所有加了ElasticJob的bean
+        Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(EDataflowJob.class);
+        Set<DataflowJob> jobs = beansWithAnnotation.values()
+                                                 .stream()
+                                                 .filter(s -> s instanceof DataflowJob)
+                                                 .map(v -> (DataflowJob) v)
+                                                 .collect(Collectors.toSet());
+        //构建job注册到zk
+        for (DataflowJob job : jobs) {
+            EDataflowJob jobAnn = job.getClass().getAnnotation(EDataflowJob.class);
+            JobCoreConfiguration jobCoreConfiguration = JobCoreConfiguration.newBuilder(jobAnn.jobName(), jobAnn.cron(), jobAnn.shardingTotalCount()).build();
+            DataflowJobConfiguration simpleJobConfiguration = new DataflowJobConfiguration(jobCoreConfiguration, job.getClass().getCanonicalName(),jobAnn.streamProcess());
+            LiteJobConfiguration simpleJobRootConfig = LiteJobConfiguration.newBuilder(simpleJobConfiguration).overwrite(jobAnn.overwrite()).build();
+            new JobScheduler(zookeeperRegistryCenter, simpleJobRootConfig).init();
+        }
     }
 
 }

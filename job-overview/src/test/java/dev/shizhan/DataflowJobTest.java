@@ -17,7 +17,7 @@ public class DataflowJobTest extends BaseTest {
     @Test
     public void test() {
         JobCoreConfiguration jobCoreConfiguration = JobCoreConfiguration.newBuilder("ylk-dataflow-demo", "0/5 * * * * ?", 2).build();
-        DataflowJobConfiguration jobConfiguration = new DataflowJobConfiguration(jobCoreConfiguration, MyDataflowJob.class.getCanonicalName(), true);
+        DataflowJobConfiguration jobConfiguration = new DataflowJobConfiguration(jobCoreConfiguration, MyDataflowJob.class.getCanonicalName(), false);
         LiteJobConfiguration simpleJobRootConfig = LiteJobConfiguration.newBuilder(jobConfiguration).overwrite(true).build();
 
         ZookeeperRegistryCenter zookeeperRegistryCenter = new ZookeeperRegistryCenter(new ZookeeperConfiguration("127.0.0.1:2181", "elastic-job"));

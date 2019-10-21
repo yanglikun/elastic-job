@@ -8,12 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author yanglikun
  */
-@ElasticJob(
-        jobName = "my-simple-job",
-        cron = "0/3 * * * * ?",
-        shardingTotalCount = 3,
-        overwrite = true
-)
+//@ElasticJob(
+//        jobName = "my-simple-job",
+//        cron = "0/3 * * * * ?",
+//        shardingTotalCount = 3,
+//        overwrite = true
+//)
 @Slf4j
 public class MySimpleJob implements SimpleJob {
 

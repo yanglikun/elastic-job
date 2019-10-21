@@ -15,8 +15,16 @@
     <reg:zookeeper id="regCenter" server-lists="localhost:2181" namespace="ylk-job" base-sleep-time-milliseconds="1000"
                    max-sleep-time-milliseconds="3000" max-retries="3"/>
 
-    <!-- 配置作业-->
+    <!-- 配置作业
     <job:simple id="demoSimpleSpringJob" class="dev.shizhan.job.MySimpleJob" registry-center-ref="regCenter"
                 cron="0/5 * * * * ?"
-                sharding-total-count="3"/>
+                sharding-total-count="3"/>-->
+    <job:dataflow id="myDataflowJob-spring"
+                  class="dev.shizhan.job.MyDataflowJob"
+                  registry-center-ref="regCenter"
+                  cron="0/20 * * * * ?"
+                  sharding-total-count="2"
+                  overwrite="true"
+                  streaming-process="false"
+    />
 </beans>
