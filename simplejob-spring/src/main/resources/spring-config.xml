@@ -19,7 +19,7 @@
     <job:simple id="demoSimpleSpringJob" class="dev.shizhan.job.MySimpleJob" registry-center-ref="regCenter"
                 cron="0/5 * * * * ?"
                 sharding-total-count="3"/>-->
-    <job:dataflow id="myDataflowJob-spring"
+    <job:dataflow  id="myDataflowJob-spring"
                   class="dev.shizhan.job.MyDataflowJob"
                   registry-center-ref="regCenter"
                   cron="0/20 * * * * ?"

@@ -1,5 +1,7 @@
 package dev.autoconfiguration;
 
+import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
+import com.dangdang.ddframe.job.lite.api.strategy.JobShardingStrategy;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -22,4 +24,11 @@ public @interface EDataflowJob {
     boolean overwrite();
 
     boolean streamProcess();
+
+    Class<? extends JobShardingStrategy> shardingStrategy() default MyCustomJobShardingStrategy.class;
+
+    boolean jobEvent() default false;
+
+    Class<? extends ElasticJobListener>[] jobListener() default {};
+
 }

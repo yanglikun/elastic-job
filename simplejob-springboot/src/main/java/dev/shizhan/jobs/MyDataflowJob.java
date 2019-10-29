@@ -2,7 +2,6 @@ package dev.shizhan.jobs;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
-import dev.autoconfiguration.EDataflowJob;
 import dev.shizhan.data.DB;
 import dev.shizhan.data.Order;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +14,13 @@ import java.util.stream.Collectors;
  * @author yanglikun
  */
 @Slf4j
-@EDataflowJob(
-        jobName = "my-dataflow-job",
-        cron = "0/20 * * * * ?",
-        shardingTotalCount = 2,
-        overwrite = true,
-        streamProcess = true
-)
+//@EDataflowJob(
+//        jobName = "my-dataflow-job",
+//        cron = "0/20 * * * * ?",
+//        shardingTotalCount = 2,
+//        overwrite = true,
+//        streamProcess = true
+//)
 public class MyDataflowJob implements DataflowJob<Order> {
 
     private DB db = DB.create(20);

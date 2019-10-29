@@ -1,5 +1,8 @@
 package dev.autoconfiguration;
 
+import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
+import com.dangdang.ddframe.job.lite.api.strategy.JobShardingStrategy;
+import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -20,5 +23,11 @@ public @interface ElasticJob {
     int shardingTotalCount();
 
     boolean overwrite();
+
+    Class<? extends JobShardingStrategy> shardingStrategy() default AverageAllocationJobShardingStrategy.class;
+
+    boolean jobEvent() default false;
+
+    Class<? extends ElasticJobListener>[] jobListener() default {};
 
 }
