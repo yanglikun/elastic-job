@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  */
 @ElasticJob(
         jobName = "my-simple-job",
-        cron = "0/10 * * * * ?",
+        cron = "0/5 * * * * ?",
         shardingTotalCount = 2,
         overwrite = true,
         jobEvent = false
@@ -23,11 +23,6 @@ public class MySimpleJob implements SimpleJob {
 
     @Override
     public void execute(ShardingContext shardingContext) {
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         log.info(
                 "simpleJob,分片总数:{},当前分片:{}",
                 shardingContext.getShardingTotalCount(),
