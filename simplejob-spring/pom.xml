@@ -12,7 +12,7 @@
     <properties>
         <latest.release.version>2.1.5</latest.release.version>
         <javer.version>1.8</javer.version>
-        <spring.version>5.1.9.RELEASE</spring.version>
+        <spring.version>6.0.0</spring.version>
     </properties>
 
     <dependencies>
